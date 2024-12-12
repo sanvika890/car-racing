@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Racing Game</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="road">
+        <div class="car" id="car"></div>
+      </div>
+      <div class="controls">
+        <button class="control-btn" id="left-btn" onclick="moveCar('left')">Left</button>
+        <button class="control-btn" id="right-btn" onclick="moveCar('right')">Right</button>
+      </div>
+    </div>
+
+    <script>
+      const car = document.getElementById("car");
+      let carPosition = 50; // Starting position of the car (centered at 50%)
+
+      function moveCar(direction) {
+        const step = 5; // Movement step in percentage
+        const roadWidth = 250; // Road width in pixels
+        const roadLeftBound = (window.innerWidth - roadWidth) / 2;
+        const roadRightBound = roadLeftBound + roadWidth;
+
+        const carWidth = 50; // Car width in pixels
+        const carLeft = (carPosition / 100) * window.innerWidth - carWidth / 2;
+
+        if (direction === "left" && carLeft - step > roadLeftBound) {
+          carPosition -= step;
+          car.style.transform = `translateX(-50%) rotate(-10deg)`;
+        } else if (direction === "right" && carLeft + carWidth + step < roadRightBound) {
+          carPosition += step;
+          car.style.transform = `translateX(-50%) rotate(10deg)`;
+        }
+
+        car.style.left = `${carPosition}%`;
+
+        // Reset car angle to straight after moving
+        setTimeout(() => {
+          car.style.transform = `translateX(-50%) rotate(0deg)`;
+        }, 200);
+      }
+    </script>
+  </body>
+</html>
